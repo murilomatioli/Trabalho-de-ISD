@@ -4,53 +4,67 @@ void inserir(int binario, int auxBin[]); //inserir numero inteiro no vetor de bi
 void imprimeVetor(int auxBin[]); //imprimir vetor
 int potencia(int num, int pot); //potencia (2, 2)
 int binToDec(int auxBin[]); //binario para decimal
-void somaVetor(int v1[], int v2[]);
+int* somaVetorRetorna(int v1[], int v2[]);
+int* subtraiVetorRetorna(int v1[], int v2[]);
 
 int main() {
     int bin, auxBin[8], i, decimal, auxBin2[8], auxBin3[8], somaVetores;
+    int* soma;
     char op;
     
-    printf("Escolha: \n \tO primeiro binário de até 8 digitos: ");
+    printf("Escolha:\nDigite [-1] Para encerrar\n \tO primeiro binário de até 8 digitos: ");
     scanf("%d", &bin);
-
-    inserir(bin, auxBin);
-    decimal = binToDec(auxBin);
-    /*
-    printf("\tUma operação [ +, -, *, / ]: ");
-    scanf(" %c", &op);
-    
-    switch (op){
-        case '+':
-            printf("Adição");
-            break;
-        case '-':
-            printf("Subtração");
-            break;
-        case '*':
-            printf("Multiplicação");
-            break;
-        case '/':
-            printf("Divisão");
-            break;
-        default:
-            printf("Não é uma operação válida");
-            break;
+    if(bin == -1){
+        printf("Fim!");
+    }else{
+        inserir(bin, auxBin);
+        decimal = binToDec(auxBin);
+        
+        printf("\n\tO segundo binário de até 8 digitos: ");
+        scanf("%d", &bin);
+        inserir(bin, auxBin2);
+        decimal = binToDec(auxBin2);
+        
+        soma = somaVetorRetorna(auxBin, auxBin2); //soma os 2 primeiros binários
+        //printf("\n\tO terceiro binário de até 8 digitos: ");
+        //scanf("%d", &bin);
+        
+        //inserir(bin, auxBin3); //guarda o binário em formato de vetor
+        
+        //  soma = somaVetorRetorna(soma, auxBin3); //soma os 3 binários
+        
+        int* subtrai = subtraiVetorRetorna(auxBin, auxBin2);
+        
+        printf("Subtração: ");
+        for(i = 0; i <= 7;i++){
+            printf("%d", subtrai[i]);
+        }
     }
-    */
-    printf("Escolha: \n \tO segundo binário de até 8 digitos: ");
-    scanf("%d", &bin);
-    inserir(bin, auxBin2);
-    decimal = binToDec(auxBin2);
     
-    somaVetor(auxBin, auxBin2);
     return 0;
 }
 
 
 
+int* subtraiVetorRetorna(int v1[], int v2[]){
+    int i;
+    static int result[8];
+    for(i = 7;i >= 0;i--){
+        if(v1[i] - v2[i] < 0){
+            v1[i - 1] = 0;
+            v1[i] = 2;
+            result[i] = v1[i] - v2[i];
+        }else{
+            result[i] = v1[i] - v2[i];
+        }
+    }
+    return result;
+}
 
-void somaVetor(int v1[], int v2[]){
-    int i, result[8];
+
+int* somaVetorRetorna(int v1[], int v2[]){
+    int i;
+    static int result[8];
     for (i = 7; i >=0;i--){
         if(v1[i] + v2[i] > 1){
             v1[i -1] = 1;
@@ -59,7 +73,7 @@ void somaVetor(int v1[], int v2[]){
                 result[i] = v1[i] + v2[i];
             }
         }
-    imprimeVetor(result);
+    return result;
 }
 
 int binToDec(int auxBin[]){
@@ -97,3 +111,26 @@ void imprimeVetor(int auxBin[]){
     }
 }
 
+        /*
+        
+        printf("\tUma operação [ +, -, *, / ]: ");
+        scanf(" %c", &op);
+        
+        switch (op){
+            case '+':
+                printf("Adição");
+                break;
+            case '-':
+                printf("Subtração");
+                break;
+            case '*':
+                printf("Multiplicação");
+                break;
+            case '/':
+                printf("Divisão");
+                break;
+            default:
+                printf("Não é uma operação válida");
+                break;
+        }
+        */
