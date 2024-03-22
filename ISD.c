@@ -8,38 +8,82 @@ int* somaVetorRetorna(int v1[], int v2[]);
 int* subtraiVetorRetorna(int v1[], int v2[]);
 
 int main() {
-    int bin, auxBin[8], i, decimal, auxBin2[8], auxBin3[8], somaVetores;
+    int bin, auxBin[8], i, decimal, auxBin2[8], auxBin3[8], somaVetores, encerrar ,j;
     int* soma;
+    int* subtrai;
     char op;
     
-    printf("Escolha:\nDigite [-1] Para encerrar\n \tO primeiro binário de até 8 digitos: ");
-    scanf("%d", &bin);
-    if(bin == -1){
-        printf("Fim!");
-    }else{
-        inserir(bin, auxBin);
-        decimal = binToDec(auxBin);
-        
-        printf("\n\tO segundo binário de até 8 digitos: ");
+    do{
+        printf("Escolha:\nDigite [-1] Para encerrar\n \tO primeiro binário de até 8 digitos: ");
         scanf("%d", &bin);
-        inserir(bin, auxBin2);
-        decimal = binToDec(auxBin2);
-        
-        soma = somaVetorRetorna(auxBin, auxBin2); //soma os 2 primeiros binários
-        //printf("\n\tO terceiro binário de até 8 digitos: ");
-        //scanf("%d", &bin);
-        
-        //inserir(bin, auxBin3); //guarda o binário em formato de vetor
-        
-        //  soma = somaVetorRetorna(soma, auxBin3); //soma os 3 binários
-        
-        int* subtrai = subtraiVetorRetorna(auxBin, auxBin2);
-        
-        printf("Subtração: ");
-        for(i = 0; i <= 7;i++){
-            printf("%d", subtrai[i]);
-        }
-    }
+        inserir(bin, auxBin);
+        scanf(" %c", &op);
+            
+        switch (op){
+            case '+':
+                printf("Adição");
+                printf("\n\tO segundo binário de até 8 digitos: ");
+                scanf("%d", &bin);
+                inserir(bin, auxBin2);
+                soma = somaVetorRetorna(auxBin, auxBin2);
+                for(i = 0; i <=7;i++){
+                    printf("%d", soma[i]);
+                }
+                break;
+                
+            case '-':
+                printf("Subtração");
+                printf("\n\tO segundo binário de até 8 digitos: ");
+                scanf("%d", &bin);
+                inserir(bin, auxBin2);
+                subtrai = subtraiVetorRetorna(auxBin, auxBin2);
+                for(i = 0; i <=7;i++){
+                    printf("%d", subtrai[i]);
+                }
+                break;
+                
+            case '*':
+                printf("Multiplicação");
+                printf("\n\tO segundo binário de até 8 digitos: ");
+                scanf("%d", &bin);
+                inserir(bin, auxBin2);
+                break;
+                
+            case '/':
+                printf("Divisão");
+                printf("\n\tO segundo binário de até 8 digitos: ");
+                scanf("%d", &bin);
+                inserir(bin, auxBin2);
+                break;
+                
+            default:
+                printf("Não é uma operação válida");
+                break;
+            }
+            
+            /*decimal = binToDec(auxBin);
+            
+    
+            inserir(bin, auxBin2);
+            decimal = binToDec(auxBin2);*/
+            
+            //soma = somaVetorRetorna(auxBin, auxBin2); //soma os 2 primeiros binários
+            //printf("\n\tO terceiro binário de até 8 digitos: ");
+            //scanf("%d", &bin);
+            
+            //inserir(bin, auxBin3); //guarda o binário em formato de vetor
+            
+            //  soma = somaVetorRetorna(soma, auxBin3); //soma os 3 binários
+            
+            //int* subtrai = subtraiVetorRetorna(auxBin, auxBin2);
+            
+            /*printf("Subtração: ");
+            for(i = 0; i <= 7;i++){
+                printf("%d", subtrai[i]);
+            }*/
+        printf("\nEncerrar? [-1]  ");
+        scanf("%d", &encerrar);
+    }while(encerrar != -1);
     
     return 0;
 }
@@ -112,25 +156,5 @@ void imprimeVetor(int auxBin[]){
 }
 
         /*
-        
-        printf("\tUma operação [ +, -, *, / ]: ");
-        scanf(" %c", &op);
-        
-        switch (op){
-            case '+':
-                printf("Adição");
-                break;
-            case '-':
-                printf("Subtração");
-                break;
-            case '*':
-                printf("Multiplicação");
-                break;
-            case '/':
-                printf("Divisão");
-                break;
-            default:
-                printf("Não é uma operação válida");
-                break;
-        }
+
         */
