@@ -6,11 +6,13 @@ int potencia(int num, int pot); //potencia (2, 2)
 int binToDec(int auxBin[]); //binario para decimal
 int* somaVetorRetorna(int v1[], int v2[]);
 int* subtraiVetorRetorna(int v1[], int v2[]);
+int* Comp2(int auxBin[]);
 
 int main() {
     int bin, auxBin[8], i, decimal, auxBin2[8], auxBin3[8], somaVetores, encerrar ,j;
     int* soma;
     int* subtrai;
+    int* comple2;
     char op;
     
     do{
@@ -60,6 +62,15 @@ int main() {
                 printf("Não é uma operação válida");
                 break;
             }
+            
+            comple2 = Comp2(auxBin);
+            decimal = binToDec(comple2);
+            
+            
+            for(i = 0; i <=7;i++){
+               printf("%d ", comple2[i]); 
+            }
+            /*printf("Decimal: %d", decimal);
             
             /*decimal = binToDec(auxBin);
             
@@ -119,6 +130,21 @@ int* somaVetorRetorna(int v1[], int v2[]){
         }
     return result;
 }
+int* Comp2(int auxBin[]) {
+    int v2[8] = {0, 0, 0, 0, 0, 0, 0, 1};
+    int i;
+    static int result[8];
+    
+    for (i = 7; i >= 0; i--) {
+        if (auxBin[i] == 0) {
+            result[i] = 1;
+        } else {
+            result[i] = 0;
+        }
+    }
+    
+    return somaVetorRetorna(result, v2);
+}
 
 int binToDec(int auxBin[]){
     int i, dec = 0;
@@ -158,3 +184,4 @@ void imprimeVetor(int auxBin[]){
         /*
 
         */
+
