@@ -1,135 +1,164 @@
 #include <stdio.h>
 
-void inserir(int binario, int auxBin[]); //inserir numero inteiro no vetor de binario
-void imprimeVetor(int auxBin[]); //imprimir vetor
-int potencia(int num, int pot); //potencia (2, 2)
-int binToDec(int auxBin[]); //binario para decimal
+void inserir(int binario, int auxBin[]); 
+void imprimeVetor(int auxBin[]); 
+int potencia(int num, int pot); 
+int binToDec(int auxBin[]); 
 int* somaVetorRetorna(int v1[], int v2[]);
 int* subtraiVetorRetorna(int v1[], int v2[]);
 int* Comp2(int auxBin[]);
+void executaOperacao(char op, int *auxBin, int *auxBin2, int *auxBin3);
+char* binToHex(int bin[]);
 
 int main() {
-    int bin, auxBin[8], i, decimal, auxBin2[8], auxBin3[8], somaVetores, encerrar ,j;
-    int* soma;
-    int* subtrai;
+    int bin, auxBin[8], i, decimal, auxBin2[8], auxBin3[8], encerrar, binario[8];
     int* comple2;
-    char op;
+    char op, primeiraOp, segundaOp;
     
-    do{
-        printf("Escolha:\nDigite [-1] Para encerrar\n \tO primeiro binário de até 8 digitos: ");
+    do {
+        printf("Insira 3 binários e suas operacoes ou -1 para encerrar: \n");
         scanf("%d", &bin);
-        inserir(bin, auxBin);
-        scanf(" %c", &op);
-            
-        switch (op){
-            case '+':
-                printf("Adição");
-                printf("\n\tO segundo binário de até 8 digitos: ");
-                scanf("%d", &bin);
-                inserir(bin, auxBin2);
-                soma = somaVetorRetorna(auxBin, auxBin2);
-                for(i = 0; i <=7;i++){
-                    printf("%d", soma[i]);
-                }
-                break;
-                
-            case '-':
-                printf("Subtração");
-                printf("\n\tO segundo binário de até 8 digitos: ");
-                scanf("%d", &bin);
-                inserir(bin, auxBin2);
-                subtrai = subtraiVetorRetorna(auxBin, auxBin2);
-                for(i = 0; i <=7;i++){
-                    printf("%d", subtrai[i]);
-                }
-                break;
-                
-            case '*':
-                printf("Multiplicação");
-                printf("\n\tO segundo binário de até 8 digitos: ");
-                scanf("%d", &bin);
-                inserir(bin, auxBin2);
-                break;
-                
-            case '/':
-                printf("Divisão");
-                printf("\n\tO segundo binário de até 8 digitos: ");
-                scanf("%d", &bin);
-                inserir(bin, auxBin2);
-                break;
-                
-            default:
-                printf("Não é uma operação válida");
-                break;
-            }
-            
-            comple2 = Comp2(auxBin);
-            decimal = binToDec(comple2);
-            
-            
-            for(i = 0; i <=7;i++){
-               printf("%d ", comple2[i]); 
-            }
-            /*printf("Decimal: %d", decimal);
-            
-            /*decimal = binToDec(auxBin);
-            
-    
-            inserir(bin, auxBin2);
-            decimal = binToDec(auxBin2);*/
-            
-            //soma = somaVetorRetorna(auxBin, auxBin2); //soma os 2 primeiros binários
-            //printf("\n\tO terceiro binário de até 8 digitos: ");
-            //scanf("%d", &bin);
-            
-            //inserir(bin, auxBin3); //guarda o binário em formato de vetor
-            
-            //  soma = somaVetorRetorna(soma, auxBin3); //soma os 3 binários
-            
-            //int* subtrai = subtraiVetorRetorna(auxBin, auxBin2);
-            
-            /*printf("Subtração: ");
-            for(i = 0; i <= 7;i++){
-                printf("%d", subtrai[i]);
-            }*/
-        printf("\nEncerrar? [-1]  ");
-        scanf("%d", &encerrar);
-    }while(encerrar != -1);
+        encerrar = bin;
+        if(bin != -1){
+            inserir(bin, auxBin);
+            scanf(" %c", &op);
+            executaOperacao(op, auxBin, auxBin2, auxBin3);            
+        }
+        
+    } while (encerrar != -1);
     
     return 0;
 }
 
+void executaOperacao(char op, int *auxBin, int *auxBin2, int *auxBin3) {
+    int bin;
+    int *soma;
+    int *subtrai;
+    int i;
+    int *binario;
+    char primeiraOp, segundaOp;
+    int *result1;
+    int *result2;
+    int decimal;
+    
+    switch (op) {
+        case '+':
+            primeiraOp = '+';
+            for(i = 7; i >= 0;i--){
+                binario[i] = auxBin[i];
+            }
+            scanf("%d", &bin);
+            inserir(bin, auxBin2);
+            result1 = somaVetorRetorna(auxBin, auxBin2);
+
+            scanf(" %c", &op);
+
+            switch (op) {
+                case '+':
+                    segundaOp = '+';
+                    scanf("%d", &bin);
+                    inserir(bin, auxBin3);
+                    result2 = somaVetorRetorna(result1, auxBin3);
+                    break;
+
+                case '-':
+                    segundaOp = '-';
+                    scanf("%d", &bin);
+                    inserir(bin, auxBin3);
+                    result2 = subtraiVetorRetorna(result1, auxBin3);
+                    break;
+
+                default:
+                    printf("Operação inválida\n");
+                    break;
+            }
+            break;
+            
+        case '-':
+            primeiraOp = '-';
+            scanf("%d", &bin);
+            inserir(bin, auxBin2);
+            result1 = subtraiVetorRetorna(auxBin, auxBin2);
+            scanf(" %c", &op);
+
+            switch (op) {
+                case '+':
+                    segundaOp = '+';
+                    scanf("%d", &bin);
+                    inserir(bin, auxBin3);
+                    result2 = somaVetorRetorna(result1, auxBin3);
+                    printf("\n");
+                    break;
+
+                case '-':
+                    segundaOp = '-';
+                    scanf("%d", &bin);
+                    inserir(bin, auxBin3);
+                    result2 = subtraiVetorRetorna(result1, auxBin3);
+                    printf("\n");
+                    break;
+
+                default:
+                    printf("Não é uma operação válida\n");
+                    break;
+            }
+            break;
+
+        default:
+            printf("Não é uma operação válida\n");
+            break;
+    }
+    decimal = binToDec(binario);
+    printf("\n");
+    imprimeVetor(binario);
+    printf("b (%di %sh)", decimal, binToHex(binario));
+    printf("\n%c\n", primeiraOp);
+    imprimeVetor(auxBin2);
+    decimal = binToDec(auxBin2);
+    printf("b (%di %sh)", decimal, binToHex(auxBin2));
+    printf("\n%c\n", segundaOp);
+    decimal = binToDec(auxBin3);
+    imprimeVetor(auxBin3);
+    printf("b (%di %sh)", decimal, binToHex(auxBin3));
+
+    
+    printf("\n=\n");
+    decimal = binToDec(result2);
+    imprimeVetor(result2);
+    printf("b (%di %s)\n", decimal, binToHex(result2));
+}
 
 
-int* subtraiVetorRetorna(int v1[], int v2[]){
+
+int* somaVetorRetorna(int v1[], int v2[]) {
     int i;
     static int result[8];
-    for(i = 7;i >= 0;i--){
-        if(v1[i] - v2[i] < 0){
-            v1[i - 1] = 0;
-            v1[i] = 2;
+    for (i = 7; i >= 0; i--) {
+        if (v1[i] + v2[i] > 1) {
+            v1[i - 1] += 1;
+            result[i] = 0;
+        } else {
+            result[i] = v1[i] + v2[i];
+        }
+    }
+    return result;
+}
+
+int* subtraiVetorRetorna(int v1[], int v2[]) {
+    int i;
+    static int result[8];
+    for (i = 7; i >= 0; i--) {
+        if (v1[i] - v2[i] < 0) {
+            v1[i - 1] -= 1;
+            v1[i] += 2;
             result[i] = v1[i] - v2[i];
-        }else{
+        } else {
             result[i] = v1[i] - v2[i];
         }
     }
     return result;
 }
 
-
-int* somaVetorRetorna(int v1[], int v2[]){
-    int i;
-    static int result[8];
-    for (i = 7; i >=0;i--){
-        if(v1[i] + v2[i] > 1){
-            v1[i -1] = 1;
-            result[i] = 0;
-            }else{
-                result[i] = v1[i] + v2[i];
-            }
-        }
-    return result;
-}
 int* Comp2(int auxBin[]) {
     int v2[8] = {0, 0, 0, 0, 0, 0, 0, 1};
     int i;
@@ -146,21 +175,47 @@ int* Comp2(int auxBin[]) {
     return somaVetorRetorna(result, v2);
 }
 
-int binToDec(int auxBin[]){
+int binToDec(int auxBin[]) {
     int i, dec = 0;
-    for (i = 7; i >=0; i--){
-        if(auxBin[i] != 0){
-            dec += (auxBin[i] * potencia(2, 7 - i));
+
+    if (auxBin[0] == 1) {
+        int* complement = Comp2(auxBin);
+        for (i = 7; i >= 0; i--) {
+            if (complement[i] != 0) {
+                dec += (complement[i] * potencia(2, 7 - i));
+            }
+        }
+        dec = -dec;
+    } else {
+        for (i = 7; i >= 0; i--) {
+            if (auxBin[i] != 0) {
+                dec += (auxBin[i] * potencia(2, 7 - i));
+            }
         }
     }
+    
     return dec;
 }
+char* binToHex(int bin[]) {
+    static char hex[3];
+    int i;
+    for (i = 0; i < 8; i += 4) {
+        int val = 8*bin[i] + 4*bin[i+1] + 2*bin[i+2] + bin[i+3];
+        if (val < 10) {
+            hex[i/4] = '0' + val;
+        } else {
+            hex[i/4] = 'A' + val - 10;
+        }
+    }
+    hex[2] = '\0';
+    return hex;
+}
 
-int potencia(int num, int pot){
+int potencia(int num, int pot) {
     int i, result = 1;
     
-    for(i = 0;i < pot;i++){
-        result = result * num; 
+    for (i = 0; i < pot; i++) {
+        result *= num;
     }
     return result;
 }
@@ -170,18 +225,14 @@ void inserir(int binario, int auxBin[]) {
     
     for (i = 7; i >= 0; i--) {
         auxBin[i] = binario % 10;
-        binario = binario / 10;
+        binario /= 10;
     }
 }
 
-void imprimeVetor(int auxBin[]){
+void imprimeVetor(int auxBin[]) {
     int i;
-        for (i = 0; i < 8; i++) {
-        printf("%d ", auxBin[i]);
+    for (i = 0; i < 8; i++) {
+        printf("%d", auxBin[i]);
     }
 }
-
-        /*
-
-        */
 
