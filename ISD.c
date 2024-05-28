@@ -12,7 +12,6 @@ char* binToHex(int bin[]);
 
 int main() {
     int bin, auxBin[8], i, decimal, auxBin2[8], auxBin3[8], encerrar, binario[8];
-    int* comple2;
     char op, primeiraOp, segundaOp;
     
     do {
@@ -131,30 +130,28 @@ void executaOperacao(char op, int *auxBin, int *auxBin2, int *auxBin3) {
 
 
 int* somaVetorRetorna(int v1[], int v2[]) {
-    int i;
+    int i, carry = 0;
     static int result[8];
     for (i = 7; i >= 0; i--) {
-        if (v1[i] + v2[i] > 1) {
-            v1[i - 1] += 1;
-            result[i] = 0;
-        } else {
-            result[i] = v1[i] + v2[i];
-        }
+        int sum = v1[i] + v2[i] + carry;
+        result[i] = sum % 2;
+        carry = sum / 2;
     }
     return result;
 }
 
 int* subtraiVetorRetorna(int v1[], int v2[]) {
-    int i;
+    int i, borrow = 0;
     static int result[8];
     for (i = 7; i >= 0; i--) {
-        if (v1[i] - v2[i] < 0) {
-            v1[i - 1] -= 1;
-            v1[i] += 2;
-            result[i] = v1[i] - v2[i];
+        int sub = v1[i] - v2[i] - borrow;
+        if (sub < 0) {
+            sub += 2;
+            borrow = 1;
         } else {
-            result[i] = v1[i] - v2[i];
+            borrow = 0;
         }
+        result[i] = sub;
     }
     return result;
 }
@@ -235,4 +232,5 @@ void imprimeVetor(int auxBin[]) {
         printf("%d", auxBin[i]);
     }
 }
+
 
